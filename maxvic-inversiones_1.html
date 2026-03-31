@@ -1,0 +1,1413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Max Vic Inversiones</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0e0e0e;
+    --white: #f9f7f4;
+    --gray: #6b6b6b;
+    --light: #eeebe6;
+    --accent: #b8965a;
+    --accent-light: #f0e8d8;
+    --border: #d8d3cb;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--black);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* LANGUAGE BAR */
+  .lang-bar {
+    background: var(--black);
+    padding: 10px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .lang-bar-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .lang-bar-brand {
+    color: var(--accent);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .lang-switcher {
+    display: flex;
+    gap: 4px;
+  }
+  .lang-btn {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.6);
+    padding: 4px 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+  .lang-btn:hover,
+  .lang-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--white);
+  }
+
+  /* NAV */
+  nav {
+    border-bottom: 1px solid var(--border);
+    background: var(--white);
+  }
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--black);
+    text-decoration: none;
+    letter-spacing: 1px;
+  }
+  .logo span { color: var(--accent); }
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--gray);
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta {
+    background: var(--black);
+    color: var(--white) !important;
+    padding: 10px 22px;
+    border-radius: 2px;
+    font-size: 12px !important;
+    letter-spacing: 1.5px !important;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--accent) !important; color: var(--white) !important; }
+
+  /* HERO */
+  .hero {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 100px 32px 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .hero-tag {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    border-top: 1px solid var(--accent);
+    padding-top: 8px;
+    margin-bottom: 28px;
+    font-weight: 500;
+  }
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(44px, 5vw, 68px);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--black);
+    margin-bottom: 24px;
+    letter-spacing: -0.5px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero p {
+    color: var(--gray);
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 40px;
+    max-width: 440px;
+  }
+  .hero-btns {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    background: var(--black);
+    color: var(--white);
+    padding: 14px 32px;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    transition: background 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--accent); }
+  .btn-outline {
+    border: 1px solid var(--border);
+    color: var(--black);
+    padding: 14px 32px;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    transition: border-color 0.2s, color 0.2s;
+    display: inline-block;
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+  .hero-visual {
+    position: relative;
+  }
+  .hero-card {
+    background: var(--light);
+    border: 1px solid var(--border);
+    padding: 48px 40px;
+    border-radius: 4px;
+    position: relative;
+  }
+  .hero-card::before {
+    content: '';
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    width: 100%;
+    height: 100%;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    z-index: -1;
+  }
+  .stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  .stat-item {}
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 300;
+    color: var(--black);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-num span { color: var(--accent); }
+  .stat-label {
+    font-size: 12px;
+    color: var(--gray);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .stat-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 32px 0;
+  }
+  .trust-line {
+    font-size: 13px;
+    color: var(--gray);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .trust-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* SECTION BASE */
+  section { padding: 80px 0; }
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 300;
+    line-height: 1.2;
+    color: var(--black);
+    margin-bottom: 20px;
+  }
+  .section-sub {
+    color: var(--gray);
+    font-size: 16px;
+    max-width: 520px;
+    line-height: 1.8;
+  }
+
+  /* CATEGORIES */
+  .categories { background: var(--light); }
+  .cat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 56px;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .cat-card {
+    background: var(--white);
+    padding: 40px 32px;
+    transition: background 0.3s;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+  }
+  .cat-card:hover { background: var(--accent-light); }
+  .cat-icon {
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    font-size: 20px;
+  }
+  .cat-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--black);
+    margin-bottom: 10px;
+  }
+  .cat-desc {
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+  .cat-arrow {
+    font-size: 18px;
+    color: var(--accent);
+    display: block;
+  }
+
+  /* FEATURED */
+  .featured-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr;
+    gap: 24px;
+    margin-top: 48px;
+  }
+  .product-card {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+  }
+  .product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+  }
+  .product-img {
+    height: 220px;
+    background: var(--light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .product-img-tall { height: 320px; }
+  .product-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: var(--accent);
+    color: var(--white);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 2px;
+    font-weight: 500;
+  }
+  .product-info {
+    padding: 24px;
+  }
+  .product-cat {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .product-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--black);
+    margin-bottom: 8px;
+  }
+  .product-price {
+    font-size: 18px;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .product-price small {
+    font-size: 12px;
+    color: var(--gray);
+    font-weight: 300;
+    text-decoration: line-through;
+    margin-left: 8px;
+  }
+
+  /* HOW IT WORKS */
+  .how { background: var(--black); color: var(--white); }
+  .how .section-title { color: var(--white); }
+  .how .section-label { color: var(--accent); }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+    margin-top: 60px;
+    position: relative;
+  }
+  .steps::before {
+    content: '';
+    position: absolute;
+    top: 28px;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: rgba(255,255,255,0.1);
+  }
+  .step {
+    position: relative;
+    padding-top: 12px;
+  }
+  .step-num {
+    width: 56px;
+    height: 56px;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    color: var(--accent);
+    margin-bottom: 24px;
+    background: var(--black);
+    position: relative;
+    z-index: 1;
+  }
+  .step-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+  .step-desc {
+    font-size: 14px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.7;
+  }
+
+  /* TESTIMONIALS */
+  .testimonials { background: var(--light); }
+  .testi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 48px;
+  }
+  .testi-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 36px;
+  }
+  .testi-quote {
+    font-size: 32px;
+    color: var(--accent);
+    font-family: 'Cormorant Garamond', serif;
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+  .testi-text {
+    font-size: 15px;
+    color: var(--black);
+    line-height: 1.8;
+    margin-bottom: 24px;
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 300;
+  }
+  .testi-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .testi-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--accent-light);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+  }
+  .testi-name {
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--black);
+  }
+  .testi-country {
+    font-size: 12px;
+    color: var(--gray);
+  }
+  .flag { font-size: 14px; }
+
+  /* WHY */
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    margin-top: 60px;
+  }
+  .why-list {
+    list-style: none;
+  }
+  .why-item {
+    display: flex;
+    gap: 20px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .why-icon {
+    color: var(--accent);
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .why-title {
+    font-weight: 500;
+    color: var(--black);
+    margin-bottom: 6px;
+    font-size: 15px;
+  }
+  .why-desc {
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.7;
+  }
+  .why-visual {
+    background: var(--light);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 48px;
+    text-align: center;
+  }
+  .why-visual-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 80px;
+    font-weight: 300;
+    color: var(--black);
+    line-height: 1;
+  }
+  .why-visual-num span { color: var(--accent); }
+  .why-visual-sub {
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-top: 8px;
+    font-weight: 500;
+  }
+  .why-visual-divider { height: 1px; background: var(--border); margin: 32px 0; }
+  .why-flags {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+  .flag-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    padding: 6px 14px;
+    border-radius: 2px;
+    font-size: 12px;
+    color: var(--gray);
+  }
+
+  /* CONTACT */
+  .contact { background: var(--black); }
+  .contact .section-title { color: var(--white); }
+  .contact .section-label { color: var(--accent); }
+  .contact .section-sub { color: rgba(255,255,255,0.5); }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    margin-top: 60px;
+    align-items: start;
+  }
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .form-label {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    font-weight: 500;
+  }
+  .form-input, .form-select, .form-textarea {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: var(--white);
+    padding: 14px 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    border-radius: 2px;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    border-color: var(--accent);
+  }
+  .form-select option { background: #1a1a1a; }
+  .form-textarea { resize: vertical; min-height: 120px; }
+  .form-submit {
+    background: var(--accent);
+    color: var(--white);
+    border: none;
+    padding: 16px 40px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: opacity 0.2s;
+    align-self: flex-start;
+  }
+  .form-submit:hover { opacity: 0.85; }
+  .contact-info {
+    padding-top: 8px;
+  }
+  .contact-info-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--white);
+    margin-bottom: 20px;
+    line-height: 1.3;
+  }
+  .contact-info-sub {
+    font-size: 15px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.8;
+    margin-bottom: 40px;
+  }
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .contact-icon {
+    font-size: 18px;
+    color: var(--accent);
+    width: 24px;
+    flex-shrink: 0;
+    text-align: center;
+  }
+  .contact-detail { font-size: 15px; color: rgba(255,255,255,0.6); }
+  .contact-detail strong { color: var(--white); display: block; font-weight: 500; font-size: 13px; margin-bottom: 2px; }
+
+  /* FOOTER */
+  footer {
+    background: var(--black);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 40px 0;
+  }
+  .footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    color: var(--white);
+    font-weight: 300;
+  }
+  .footer-logo span { color: var(--accent); }
+  .footer-copy {
+    font-size: 13px;
+    color: rgba(255,255,255,0.3);
+  }
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+  .footer-links a {
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+    text-decoration: none;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--accent); }
+
+  /* LANGUAGE CONTENT */
+  [data-lang] { display: none; }
+  [data-lang].active { display: block; }
+  [data-lang-inline] { display: none; }
+  [data-lang-inline].active { display: inline; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up { animation: fadeUp 0.7s ease forwards; }
+  .delay-1 { animation-delay: 0.1s; opacity: 0; }
+  .delay-2 { animation-delay: 0.2s; opacity: 0; }
+  .delay-3 { animation-delay: 0.3s; opacity: 0; }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; gap: 40px; padding: 60px 24px 40px; }
+    .cat-grid { grid-template-columns: 1fr; }
+    .featured-grid { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr 1fr; }
+    .steps::before { display: none; }
+    .testi-grid { grid-template-columns: 1fr; }
+    .why-grid { grid-template-columns: 1fr; gap: 40px; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .container, .nav-inner, .lang-bar-inner, .footer-inner { padding-left: 20px; padding-right: 20px; }
+    .footer-inner { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LANGUAGE BAR -->
+<div class="lang-bar">
+  <div class="lang-bar-inner">
+    <span class="lang-bar-brand">Max Vic Inversiones</span>
+    <div class="lang-switcher">
+      <button class="lang-btn active" onclick="setLang('es')">ES</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('pt')">PT</button>
+      <button class="lang-btn" onclick="setLang('ht')">KR</button>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">Max Vic <span>Inversiones</span></a>
+    <ul class="nav-links">
+      <li><a href="#productos" data-lang="es">Productos</a><a href="#productos" data-lang="en">Products</a><a href="#productos" data-lang="pt">Produtos</a><a href="#productos" data-lang="ht">Pwodwi</a></li>
+      <li><a href="#como-funciona" data-lang="es">¿Cómo funciona?</a><a href="#como-funciona" data-lang="en">How it works</a><a href="#como-funciona" data-lang="pt">Como funciona</a><a href="#como-funciona" data-lang="ht">Kijan li travay</a></li>
+      <li><a href="#nosotros" data-lang="es">Nosotros</a><a href="#nosotros" data-lang="en">About</a><a href="#nosotros" data-lang="pt">Sobre nós</a><a href="#nosotros" data-lang="ht">Sou nou</a></li>
+      <li><a href="#contacto" class="nav-cta" data-lang="es">Comprar ahora</a><a href="#contacto" class="nav-cta" data-lang="en">Buy now</a><a href="#contacto" class="nav-cta" data-lang="pt">Comprar agora</a><a href="#contacto" class="nav-cta" data-lang="ht">Achte kounye a</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section>
+  <div class="hero">
+    <div class="fade-up">
+      <!-- ES -->
+      <div data-lang="es">
+        <span class="hero-tag">Tienda Global en Línea</span>
+        <h1>Calidad que <em>trasciende</em> fronteras</h1>
+        <p>En Max Vic Inversiones llevamos productos de primera calidad directamente a tu puerta, sin importar donde estés en el mundo. Compra con confianza, en tu idioma.</p>
+        <div class="hero-btns">
+          <a href="#productos" class="btn-primary">Ver catálogo</a>
+          <a href="#contacto" class="btn-outline">Contáctanos</a>
+        </div>
+      </div>
+      <!-- EN -->
+      <div data-lang="en">
+        <span class="hero-tag">Global Online Store</span>
+        <h1>Quality that <em>transcends</em> borders</h1>
+        <p>At Max Vic Inversiones we bring premium products directly to your door, no matter where you are in the world. Shop with confidence, in your language.</p>
+        <div class="hero-btns">
+          <a href="#productos" class="btn-primary">Browse catalog</a>
+          <a href="#contacto" class="btn-outline">Contact us</a>
+        </div>
+      </div>
+      <!-- PT -->
+      <div data-lang="pt">
+        <span class="hero-tag">Loja Global Online</span>
+        <h1>Qualidade que <em>transcende</em> fronteiras</h1>
+        <p>Na Max Vic Inversiones levamos produtos premium diretamente à sua porta, não importa onde você esteja no mundo. Compre com confiança, no seu idioma.</p>
+        <div class="hero-btns">
+          <a href="#productos" class="btn-primary">Ver catálogo</a>
+          <a href="#contacto" class="btn-outline">Contate-nos</a>
+        </div>
+      </div>
+      <!-- HT -->
+      <div data-lang="ht">
+        <span class="hero-tag">Boutik Mondyal Anliy</span>
+        <h1>Kalite ki <em>depase</em> fwontyè</h1>
+        <p>Nan Max Vic Inversiones nou pote pwodwi premye kalite dirèkteman nan pòt ou, kèlkeswa kote ou ye nan mond lan. Achte ak konfyans, nan lang ou.</p>
+        <div class="hero-btns">
+          <a href="#productos" class="btn-primary">Wè katalòg</a>
+          <a href="#contacto" class="btn-outline">Kontakte nou</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="fade-up delay-2">
+      <div class="hero-card">
+        <div class="stat-grid">
+          <div class="stat-item">
+            <div class="stat-num">4<span>+</span></div>
+            <div class="stat-label" data-lang="es">Idiomas</div>
+            <div class="stat-label" data-lang="en">Languages</div>
+            <div class="stat-label" data-lang="pt">Idiomas</div>
+            <div class="stat-label" data-lang="ht">Lang</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">100<span>%</span></div>
+            <div class="stat-label" data-lang="es">Seguro</div>
+            <div class="stat-label" data-lang="en">Secure</div>
+            <div class="stat-label" data-lang="pt">Seguro</div>
+            <div class="stat-label" data-lang="ht">Sekirite</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">24<span>h</span></div>
+            <div class="stat-label" data-lang="es">Respuesta</div>
+            <div class="stat-label" data-lang="en">Response</div>
+            <div class="stat-label" data-lang="pt">Resposta</div>
+            <div class="stat-label" data-lang="ht">Repons</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">★<span>5</span></div>
+            <div class="stat-label" data-lang="es">Satisfacción</div>
+            <div class="stat-label" data-lang="en">Satisfaction</div>
+            <div class="stat-label" data-lang="pt">Satisfação</div>
+            <div class="stat-label" data-lang="ht">Satisfaksyon</div>
+          </div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="trust-line">
+          <span class="trust-dot"></span>
+          <span data-lang="es">Empresa confiable — Servicio en 4 idiomas</span>
+          <span data-lang="en">Trusted company — Service in 4 languages</span>
+          <span data-lang="pt">Empresa confiável — Serviço em 4 idiomas</span>
+          <span data-lang="ht">Antrepriz serye — Sèvis nan 4 lang</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="categories" id="productos">
+  <div class="container">
+    <div class="cat-header">
+      <div>
+        <div class="section-label" data-lang="es">Lo que ofrecemos</div>
+        <div class="section-label" data-lang="en">What we offer</div>
+        <div class="section-label" data-lang="pt">O que oferecemos</div>
+        <div class="section-label" data-lang="ht">Sa nou ofri</div>
+        <h2 class="section-title">
+          <span data-lang="es">Nuestras categorías</span>
+          <span data-lang="en">Our categories</span>
+          <span data-lang="pt">Nossas categorias</span>
+          <span data-lang="ht">Kategori nou yo</span>
+        </h2>
+      </div>
+      <a href="#contacto" class="btn-outline" style="white-space:nowrap;">
+        <span data-lang="es">Ver todo →</span>
+        <span data-lang="en">View all →</span>
+        <span data-lang="pt">Ver tudo →</span>
+        <span data-lang="ht">Wè tout →</span>
+      </a>
+    </div>
+    <div class="cat-grid">
+      <a href="#contacto" class="cat-card">
+        <div class="cat-icon">🏠</div>
+        <div class="cat-name" data-lang="es">Hogar & Decoración</div>
+        <div class="cat-name" data-lang="en">Home & Decor</div>
+        <div class="cat-name" data-lang="pt">Casa & Decoração</div>
+        <div class="cat-name" data-lang="ht">Kay & Dekorasyon</div>
+        <div class="cat-desc" data-lang="es">Artículos de alta calidad para transformar tu espacio.</div>
+        <div class="cat-desc" data-lang="en">High-quality items to transform your space.</div>
+        <div class="cat-desc" data-lang="pt">Itens de alta qualidade para transformar seu espaço.</div>
+        <div class="cat-desc" data-lang="ht">Atik kalite pou transfòme espas ou.</div>
+        <span class="cat-arrow">→</span>
+      </a>
+      <a href="#contacto" class="cat-card">
+        <div class="cat-icon">💄</div>
+        <div class="cat-name" data-lang="es">Belleza & Cuidado</div>
+        <div class="cat-name" data-lang="en">Beauty & Care</div>
+        <div class="cat-name" data-lang="pt">Beleza & Cuidado</div>
+        <div class="cat-name" data-lang="ht">Bote & Swen</div>
+        <div class="cat-desc" data-lang="es">Productos de belleza seleccionados con exigencia.</div>
+        <div class="cat-desc" data-lang="en">Beauty products selected with high standards.</div>
+        <div class="cat-desc" data-lang="pt">Produtos de beleza selecionados com exigência.</div>
+        <div class="cat-desc" data-lang="ht">Pwodwi bote chwazi ak egzijans.</div>
+        <span class="cat-arrow">→</span>
+      </a>
+      <a href="#contacto" class="cat-card">
+        <div class="cat-icon">📱</div>
+        <div class="cat-name" data-lang="es">Tecnología</div>
+        <div class="cat-name" data-lang="en">Technology</div>
+        <div class="cat-name" data-lang="pt">Tecnologia</div>
+        <div class="cat-name" data-lang="ht">Teknoloji</div>
+        <div class="cat-desc" data-lang="es">Gadgets y accesorios tech para tu vida moderna.</div>
+        <div class="cat-desc" data-lang="en">Tech gadgets and accessories for your modern life.</div>
+        <div class="cat-desc" data-lang="pt">Gadgets e acessórios tech para sua vida moderna.</div>
+        <div class="cat-desc" data-lang="ht">Gadgets ak akseswa teknoloji pou lavi modèn ou.</div>
+        <span class="cat-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED PRODUCTS -->
+<section>
+  <div class="container">
+    <div class="section-label" data-lang="es">Más vendidos</div>
+    <div class="section-label" data-lang="en">Best sellers</div>
+    <div class="section-label" data-lang="pt">Mais vendidos</div>
+    <div class="section-label" data-lang="ht">Pi vann yo</div>
+    <h2 class="section-title">
+      <span data-lang="es">Productos destacados</span>
+      <span data-lang="en">Featured products</span>
+      <span data-lang="pt">Produtos em destaque</span>
+      <span data-lang="ht">Pwodwi vedette</span>
+    </h2>
+    <div class="featured-grid">
+      <div class="product-card">
+        <div class="product-img product-img-tall" style="font-size:60px;background:linear-gradient(135deg,#f0e8d8,#e8dcc8);">
+          🏡
+          <span class="product-badge" data-lang="es">Destacado</span>
+          <span class="product-badge" data-lang="en">Featured</span>
+          <span class="product-badge" data-lang="pt">Destaque</span>
+          <span class="product-badge" data-lang="ht">Vedette</span>
+        </div>
+        <div class="product-info">
+          <div class="product-cat" data-lang="es">Hogar</div>
+          <div class="product-cat" data-lang="en">Home</div>
+          <div class="product-cat" data-lang="pt">Casa</div>
+          <div class="product-cat" data-lang="ht">Kay</div>
+          <div class="product-name" data-lang="es">Set de Decoración Premium</div>
+          <div class="product-name" data-lang="en">Premium Decoration Set</div>
+          <div class="product-name" data-lang="pt">Conjunto de Decoração Premium</div>
+          <div class="product-name" data-lang="ht">Sèt Dekorasyon Premium</div>
+          <div class="product-price">$89.99 <small>$119.99</small></div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-img" style="background:linear-gradient(135deg,#f5f0e8,#ede5d8);">💆‍♀️</div>
+        <div class="product-info">
+          <div class="product-cat" data-lang="es">Belleza</div>
+          <div class="product-cat" data-lang="en">Beauty</div>
+          <div class="product-cat" data-lang="pt">Beleza</div>
+          <div class="product-cat" data-lang="ht">Bote</div>
+          <div class="product-name" data-lang="es">Kit de Cuidado Natural</div>
+          <div class="product-name" data-lang="en">Natural Care Kit</div>
+          <div class="product-name" data-lang="pt">Kit de Cuidado Natural</div>
+          <div class="product-name" data-lang="ht">Kit Swen Natirèl</div>
+          <div class="product-price">$45.00</div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-img" style="background:linear-gradient(135deg,#eaedf5,#dde3f0);">⌚</div>
+        <div class="product-info">
+          <div class="product-cat" data-lang="es">Tecnología</div>
+          <div class="product-cat" data-lang="en">Technology</div>
+          <div class="product-cat" data-lang="pt">Tecnologia</div>
+          <div class="product-cat" data-lang="ht">Teknoloji</div>
+          <div class="product-name" data-lang="es">Smartwatch Avanzado</div>
+          <div class="product-name" data-lang="en">Advanced Smartwatch</div>
+          <div class="product-name" data-lang="pt">Smartwatch Avançado</div>
+          <div class="product-name" data-lang="ht">Smartwatch Avanse</div>
+          <div class="product-price">$129.00 <small>$189.00</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="como-funciona">
+  <div class="container">
+    <div class="section-label">
+      <span data-lang="es">Proceso simple</span>
+      <span data-lang="en">Simple process</span>
+      <span data-lang="pt">Processo simples</span>
+      <span data-lang="ht">Pwosesis senp</span>
+    </div>
+    <h2 class="section-title">
+      <span data-lang="es">¿Cómo comprar?</span>
+      <span data-lang="en">How to buy?</span>
+      <span data-lang="pt">Como comprar?</span>
+      <span data-lang="ht">Kijan pou achte?</span>
+    </h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-title" data-lang="es">Elige tu producto</div>
+        <div class="step-title" data-lang="en">Choose your product</div>
+        <div class="step-title" data-lang="pt">Escolha seu produto</div>
+        <div class="step-title" data-lang="ht">Chwazi pwodwi ou</div>
+        <div class="step-desc" data-lang="es">Explora nuestro catálogo y selecciona lo que necesitas.</div>
+        <div class="step-desc" data-lang="en">Browse our catalog and select what you need.</div>
+        <div class="step-desc" data-lang="pt">Navegue pelo nosso catálogo e selecione o que precisa.</div>
+        <div class="step-desc" data-lang="ht">Ekspore katalòg nou epi chwazi sa ou bezwen.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-title" data-lang="es">Contáctanos</div>
+        <div class="step-title" data-lang="en">Contact us</div>
+        <div class="step-title" data-lang="pt">Entre em contato</div>
+        <div class="step-title" data-lang="ht">Kontakte nou</div>
+        <div class="step-desc" data-lang="es">Escríbenos por WhatsApp, email o el formulario de contacto.</div>
+        <div class="step-desc" data-lang="en">Write to us via WhatsApp, email or the contact form.</div>
+        <div class="step-desc" data-lang="pt">Escreva-nos pelo WhatsApp, e-mail ou formulário de contato.</div>
+        <div class="step-desc" data-lang="ht">Ekri nou pa WhatsApp, imèl oswa fòmilè kontak la.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-title" data-lang="es">Realiza tu pago</div>
+        <div class="step-title" data-lang="en">Make your payment</div>
+        <div class="step-title" data-lang="pt">Faça seu pagamento</div>
+        <div class="step-title" data-lang="ht">Fè peman ou</div>
+        <div class="step-desc" data-lang="es">Aceptamos múltiples métodos de pago seguros.</div>
+        <div class="step-desc" data-lang="en">We accept multiple secure payment methods.</div>
+        <div class="step-desc" data-lang="pt">Aceitamos vários métodos de pagamento seguros.</div>
+        <div class="step-desc" data-lang="ht">Nou aksepte plizyè metòd peman sekirize.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-title" data-lang="es">Recibe tu pedido</div>
+        <div class="step-title" data-lang="en">Receive your order</div>
+        <div class="step-title" data-lang="pt">Receba seu pedido</div>
+        <div class="step-title" data-lang="ht">Resevwa kòmand ou</div>
+        <div class="step-desc" data-lang="es">Te entregamos donde estés con seguimiento en tiempo real.</div>
+        <div class="step-desc" data-lang="en">We deliver wherever you are with real-time tracking.</div>
+        <div class="step-desc" data-lang="pt">Entregamos onde você estiver com rastreamento em tempo real.</div>
+        <div class="step-desc" data-lang="ht">Nou livre kote ou ye ak swivi an tan reyèl.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section id="nosotros">
+  <div class="container">
+    <div class="section-label" data-lang="es">Nuestro compromiso</div>
+    <div class="section-label" data-lang="en">Our commitment</div>
+    <div class="section-label" data-lang="pt">Nosso compromisso</div>
+    <div class="section-label" data-lang="ht">Angajman nou</div>
+    <h2 class="section-title">
+      <span data-lang="es">¿Por qué elegirnos?</span>
+      <span data-lang="en">Why choose us?</span>
+      <span data-lang="pt">Por que nos escolher?</span>
+      <span data-lang="ht">Poukisa chwazi nou?</span>
+    </h2>
+    <div class="why-grid">
+      <ul class="why-list">
+        <li class="why-item">
+          <div class="why-icon">✦</div>
+          <div>
+            <div class="why-title" data-lang="es">Atención en tu idioma</div>
+            <div class="why-title" data-lang="en">Support in your language</div>
+            <div class="why-title" data-lang="pt">Atendimento no seu idioma</div>
+            <div class="why-title" data-lang="ht">Sèvis nan lang ou</div>
+            <div class="why-desc" data-lang="es">Hablamos Español, Inglés, Portugués y Creole para que siempre te sientas comprendido.</div>
+            <div class="why-desc" data-lang="en">We speak Spanish, English, Portuguese and Creole so you always feel understood.</div>
+            <div class="why-desc" data-lang="pt">Falamos Espanhol, Inglês, Português e Crioulo para que você sempre se sinta compreendido.</div>
+            <div class="why-desc" data-lang="ht">Nou pale Panyòl, Anglè, Pòtigè ak Kreyòl pou ou toujou santi ou konprann.</div>
+          </div>
+        </li>
+        <li class="why-item">
+          <div class="why-icon">✦</div>
+          <div>
+            <div class="why-title" data-lang="es">Precios competitivos</div>
+            <div class="why-title" data-lang="en">Competitive prices</div>
+            <div class="why-title" data-lang="pt">Preços competitivos</div>
+            <div class="why-title" data-lang="ht">Pri konpetitif</div>
+            <div class="why-desc" data-lang="es">Calidad premium sin pagar de más. Ofrecemos el mejor valor del mercado.</div>
+            <div class="why-desc" data-lang="en">Premium quality without overpaying. We offer the best market value.</div>
+            <div class="why-desc" data-lang="pt">Qualidade premium sem pagar a mais. Oferecemos o melhor valor do mercado.</div>
+            <div class="why-desc" data-lang="ht">Kalite premium san peye twòp. Nou ofri pi bon valè mache a.</div>
+          </div>
+        </li>
+        <li class="why-item">
+          <div class="why-icon">✦</div>
+          <div>
+            <div class="why-title" data-lang="es">Compra 100% segura</div>
+            <div class="why-title" data-lang="en">100% secure shopping</div>
+            <div class="why-title" data-lang="pt">Compra 100% segura</div>
+            <div class="why-title" data-lang="ht">Acha 100% sekirize</div>
+            <div class="why-desc" data-lang="es">Tu información y pagos están siempre protegidos con los más altos estándares.</div>
+            <div class="why-desc" data-lang="en">Your information and payments are always protected with the highest standards.</div>
+            <div class="why-desc" data-lang="pt">Suas informações e pagamentos estão sempre protegidos com os mais altos padrões.</div>
+            <div class="why-desc" data-lang="ht">Enfòmasyon ou ak peman ou yo toujou pwoteje ak pi wo estanda yo.</div>
+          </div>
+        </li>
+        <li class="why-item">
+          <div class="why-icon">✦</div>
+          <div>
+            <div class="why-title" data-lang="es">Envío internacional</div>
+            <div class="why-title" data-lang="en">International shipping</div>
+            <div class="why-title" data-lang="pt">Envio internacional</div>
+            <div class="why-title" data-lang="ht">Livrezon entènasyonal</div>
+            <div class="why-desc" data-lang="es">Llegamos a donde tú estás. Envíos rápidos con rastreo completo.</div>
+            <div class="why-desc" data-lang="en">We reach you wherever you are. Fast shipping with full tracking.</div>
+            <div class="why-desc" data-lang="pt">Chegamos onde você está. Envios rápidos com rastreamento completo.</div>
+            <div class="why-desc" data-lang="ht">Nou rive kote ou ye. Livrezon rapid ak swivi konplè.</div>
+          </div>
+        </li>
+      </ul>
+      <div class="why-visual">
+        <div class="why-visual-num">4<span>+</span></div>
+        <div class="why-visual-sub" data-lang="es">Idiomas de atención</div>
+        <div class="why-visual-sub" data-lang="en">Languages of service</div>
+        <div class="why-visual-sub" data-lang="pt">Idiomas de atendimento</div>
+        <div class="why-visual-sub" data-lang="ht">Lang sèvis yo</div>
+        <div class="why-visual-divider"></div>
+        <div class="why-flags">
+          <div class="flag-badge"><span>🇪🇸</span> Español</div>
+          <div class="flag-badge"><span>🇺🇸</span> English</div>
+          <div class="flag-badge"><span>🇧🇷</span> Português</div>
+          <div class="flag-badge"><span>🇭🇹</span> Kreyòl</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="container">
+    <div class="section-label" data-lang="es">Lo que dicen</div>
+    <div class="section-label" data-lang="en">What they say</div>
+    <div class="section-label" data-lang="pt">O que dizem</div>
+    <div class="section-label" data-lang="ht">Sa yo di</div>
+    <h2 class="section-title">
+      <span data-lang="es">Clientes satisfechos</span>
+      <span data-lang="en">Satisfied customers</span>
+      <span data-lang="pt">Clientes satisfeitos</span>
+      <span data-lang="ht">Kliyan satisfè</span>
+    </h2>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-quote">"</div>
+        <div class="testi-text" data-lang="es">Excelente servicio. Me atendieron en español y el producto llegó en perfectas condiciones.</div>
+        <div class="testi-text" data-lang="en">Excellent service. They attended me in English and the product arrived in perfect condition.</div>
+        <div class="testi-text" data-lang="pt">Excelente serviço. Fui atendida em português e o produto chegou em perfeitas condições.</div>
+        <div class="testi-text" data-lang="ht">Sèvis ekselan. Yo te sèvi m an Kreyòl epi pwodwi a rive nan bon kondisyon.</div>
+        <div class="testi-author">
+          <div class="testi-avatar">👤</div>
+          <div>
+            <div class="testi-name">María G.</div>
+            <div class="testi-country">🇲🇽 México</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote">"</div>
+        <div class="testi-text" data-lang="es">Increíble que puedan atender en 4 idiomas. Eso genera mucha confianza para comprar.</div>
+        <div class="testi-text" data-lang="en">Incredible that they can serve in 4 languages. That builds a lot of trust when buying.</div>
+        <div class="testi-text" data-lang="pt">Incrível que atendam em 4 idiomas. Isso gera muita confiança para comprar.</div>
+        <div class="testi-text" data-lang="ht">Enkwayab yo ka sèvi nan 4 lang. Sa kreye anpil konfyans pou achte.</div>
+        <div class="testi-author">
+          <div class="testi-avatar">👤</div>
+          <div>
+            <div class="testi-name">James T.</div>
+            <div class="testi-country">🇺🇸 USA</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote">"</div>
+        <div class="testi-text" data-lang="es">Muy buena calidad y el precio es justo. Seguiré comprando sin duda.</div>
+        <div class="testi-text" data-lang="en">Very good quality and the price is fair. I will definitely keep buying.</div>
+        <div class="testi-text" data-lang="pt">Muito boa qualidade e o preço é justo. Vou continuar comprando com certeza.</div>
+        <div class="testi-text" data-lang="ht">Trè bon kalite epi pri a jis. Mwen pral kontinye achte san dout.</div>
+        <div class="testi-author">
+          <div class="testi-avatar">👤</div>
+          <div>
+            <div class="testi-name">Jean-Pierre L.</div>
+            <div class="testi-country">🇭🇹 Haïti</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contacto">
+  <div class="container">
+    <div class="section-label">
+      <span data-lang="es">Estamos aquí</span>
+      <span data-lang="en">We're here</span>
+      <span data-lang="pt">Estamos aqui</span>
+      <span data-lang="ht">Nou la</span>
+    </div>
+    <h2 class="section-title">
+      <span data-lang="es">Contáctanos</span>
+      <span data-lang="en">Contact us</span>
+      <span data-lang="pt">Entre em contato</span>
+      <span data-lang="ht">Kontakte nou</span>
+    </h2>
+    <p class="section-sub">
+      <span data-lang="es">Escríbenos en tu idioma. Respondemos en menos de 24 horas.</span>
+      <span data-lang="en">Write to us in your language. We respond in less than 24 hours.</span>
+      <span data-lang="pt">Escreva-nos no seu idioma. Respondemos em menos de 24 horas.</span>
+      <span data-lang="ht">Ekri nou nan lang ou. Nou reponn nan mwens pase 24 è.</span>
+    </p>
+    <div class="contact-grid">
+      <form class="contact-form" onsubmit="submitForm(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" data-lang="es">Nombre</label>
+            <label class="form-label" data-lang="en">Name</label>
+            <label class="form-label" data-lang="pt">Nome</label>
+            <label class="form-label" data-lang="ht">Non</label>
+            <input type="text" class="form-input" placeholder="Tu nombre" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-input" placeholder="tu@email.com" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-lang="es">Idioma preferido</label>
+          <label class="form-label" data-lang="en">Preferred language</label>
+          <label class="form-label" data-lang="pt">Idioma preferido</label>
+          <label class="form-label" data-lang="ht">Lang prefere</label>
+          <select class="form-select">
+            <option>🇪🇸 Español</option>
+            <option>🇺🇸 English</option>
+            <option>🇧🇷 Português</option>
+            <option>🇭🇹 Kreyòl Ayisyen</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-lang="es">Mensaje</label>
+          <label class="form-label" data-lang="en">Message</label>
+          <label class="form-label" data-lang="pt">Mensagem</label>
+          <label class="form-label" data-lang="ht">Mesaj</label>
+          <textarea class="form-textarea" data-lang-ph="true"></textarea>
+        </div>
+        <button type="submit" class="form-submit">
+          <span data-lang="es">Enviar mensaje</span>
+          <span data-lang="en">Send message</span>
+          <span data-lang="pt">Enviar mensagem</span>
+          <span data-lang="ht">Voye mesaj</span>
+        </button>
+      </form>
+      <div class="contact-info">
+        <div class="contact-info-title" data-lang="es">Múltiples formas de comunicarte con nosotros</div>
+        <div class="contact-info-title" data-lang="en">Multiple ways to reach us</div>
+        <div class="contact-info-title" data-lang="pt">Múltiplas formas de nos contatar</div>
+        <div class="contact-info-title" data-lang="ht">Plizyè fason pou kontakte nou</div>
+        <div class="contact-info-sub" data-lang="es">Elige el canal que más te convenga. Siempre respondemos en tu idioma.</div>
+        <div class="contact-info-sub" data-lang="en">Choose the channel that suits you best. We always respond in your language.</div>
+        <div class="contact-info-sub" data-lang="pt">Escolha o canal que mais lhe convém. Sempre respondemos no seu idioma.</div>
+        <div class="contact-info-sub" data-lang="ht">Chwazi kanal ki pi bon pou ou. Nou toujou reponn nan lang ou.</div>
+        <div class="contact-item">
+          <div class="contact-icon">📱</div>
+          <div class="contact-detail">
+            <strong>WhatsApp</strong>
+            +1 (000) 000-0000
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">✉</div>
+          <div class="contact-detail">
+            <strong>Email</strong>
+            info@maxvicinversiones.com
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🌐</div>
+          <div class="contact-detail">
+            <strong data-lang="es">Idiomas disponibles</strong>
+            <strong data-lang="en">Available languages</strong>
+            <strong data-lang="pt">Idiomas disponíveis</strong>
+            <strong data-lang="ht">Lang disponib</strong>
+            🇪🇸 🇺🇸 🇧🇷 🇭🇹
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">⏰</div>
+          <div class="contact-detail">
+            <strong data-lang="es">Tiempo de respuesta</strong>
+            <strong data-lang="en">Response time</strong>
+            <strong data-lang="pt">Tempo de resposta</strong>
+            <strong data-lang="ht">Tan repons</strong>
+            <span data-lang="es">Menos de 24 horas</span>
+            <span data-lang="en">Less than 24 hours</span>
+            <span data-lang="pt">Menos de 24 horas</span>
+            <span data-lang="ht">Mwens pase 24 è</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Max Vic <span>Inversiones</span></div>
+    <ul class="footer-links">
+      <li><a href="#productos" data-lang="es">Productos</a><a href="#productos" data-lang="en">Products</a><a href="#productos" data-lang="pt">Produtos</a><a href="#productos" data-lang="ht">Pwodwi</a></li>
+      <li><a href="#contacto" data-lang="es">Contacto</a><a href="#contacto" data-lang="en">Contact</a><a href="#contacto" data-lang="pt">Contato</a><a href="#contacto" data-lang="ht">Kontak</a></li>
+    </ul>
+    <div class="footer-copy">© 2025 Max Vic Inversiones</div>
+  </div>
+</footer>
+
+<script>
+let currentLang = 'es';
+
+function setLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('[data-lang]').forEach(el => {
+    el.classList.toggle('active', el.getAttribute('data-lang') === lang);
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    const map = { es: 'ES', en: 'EN', pt: 'PT', ht: 'KR' };
+    btn.classList.toggle('active', btn.textContent === map[lang]);
+  });
+  const placeholders = {
+    es: 'Cuéntanos qué necesitas...',
+    en: 'Tell us what you need...',
+    pt: 'Conte-nos o que você precisa...',
+    ht: 'Di nou sa ou bezwen...'
+  };
+  const ta = document.querySelector('.form-textarea');
+  if (ta) ta.placeholder = placeholders[lang];
+  document.documentElement.lang = lang;
+}
+
+function submitForm(e) {
+  e.preventDefault();
+  const msgs = {
+    es: '¡Mensaje enviado! Te responderemos pronto.',
+    en: 'Message sent! We will respond soon.',
+    pt: 'Mensagem enviada! Responderemos em breve.',
+    ht: 'Mesaj voye! Nou pral reponn byento.'
+  };
+  alert(msgs[currentLang]);
+  e.target.reset();
+}
+
+// Init
+setLang('es');
+</script>
+</body>
+</html>
